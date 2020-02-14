@@ -85,10 +85,21 @@ describe("About Applying What We Have Learnt", function() {
     var ingredientCount = { "{ingredient name}": 0 };
 
     /* chain() together map(), flatten() and reduce() */
-    var flat = _.flatten(_.map(products, _.values)).filter(function(x){return x === 'mushrooms'});
-    ingredientCount['mushrooms'] = flat.length;
+    var flat = _(products).chain()
+                          .map(function(x){return x.ingredients;})
+                          .flatten()
+                          .reduce(function(memo, item, index, collection) {
+      if (memo[item]) {
+        memo[item]++;
+        return memo
+      } else {
+        memo[item] = 1;
+        return memo;
+      }
+    }, ingredientCount)
+                          .value()
 
-    console.log(flat)
+
 
     expect(ingredientCount['mushrooms']).toBe(2);
   });
