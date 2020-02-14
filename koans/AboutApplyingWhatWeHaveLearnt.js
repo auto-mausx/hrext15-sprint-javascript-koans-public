@@ -85,9 +85,10 @@ describe("About Applying What We Have Learnt", function() {
     var ingredientCount = { "{ingredient name}": 0 };
 
     /* chain() together map(), flatten() and reduce() */
-    var mushroomFoods = products.filter(function(obj) {return obj.ingredients.includes('mushrooms')});
-    console.log(mushroomFoods)
-    ingredientCount = { "{ingredient name}": mushroomFoods.length}
+    var flat = _.flatten(_.map(products, _.values)).filter(function(x){return x === 'mushrooms'});
+    ingredientCount['mushrooms'] = flat.length;
+
+    console.log(flat)
 
     expect(ingredientCount['mushrooms']).toBe(2);
   });
